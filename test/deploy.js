@@ -13,12 +13,11 @@ web3.setProvider(new web3.providers.HttpProvider("http://localhost:8101"));
 setDeployConfig = function(config) {
   var _blockchainConfig = (new Config.Blockchain()).loadConfigFile(config.blockchain);
   var blockchainConfig = _blockchainConfig.config("development");
-  var compiler = new Compiler(_blockchainConfig);
+  var compiler = new Compiler();
   var contractsConfig = new Config.Contracts(blockchainConfig, compiler);
   var chainManager = (new ChainManager()).loadConfigFile('./test/support/chain_manager.json');
   contractsConfig.loadConfigFile(config.contracts);
   contractsConfig.init(config.files, 'development');
-  compiler.init('development');
   return new Deploy('development', config.files, blockchainConfig, contractsConfig, chainManager, true, false, web3);
 }
 
