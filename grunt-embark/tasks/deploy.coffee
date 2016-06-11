@@ -8,14 +8,14 @@ module.exports = (grunt) ->
     Embark = require('embark-framework')
     Embark.init()
     Embark.blockchainConfig.loadConfigFile('config/blockchain.yml')
-    Embark.contractsConfig.loadConfigFile('config/contracts.yml')
+    #Embark.contractsConfig.loadConfigFile('config/contracts.yml')
 
     chainFile = Embark.blockchainConfig.blockchainConfig[env].chains || './chains.json'
 
     deployed = false
 
     done = @async()
-    Embark.deployContracts env, contractFiles, destFile, chainFile, true, true, (abi) =>
+    Embark.deployContracts null, env, 'config/contracts.yml', contractFiles, destFile, chainFile, true, true, (abi) =>
       grunt.file.write(destFile, abi)
 
       unless deployed
