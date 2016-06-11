@@ -45,9 +45,8 @@ describe('embark.config.contracts', function() {
           'test/support/contracts/simple_storage.sol',
           'test/support/contracts/another_storage.sol'
         ]
-        contractsConfig = new Config.Contracts(blockchainConfig, compiler);
+        contractsConfig = new Config.Contracts(1000, 1000, files, 'development');
         contractsConfig.loadConfigFile('test/support/contracts.yml');
-        contractsConfig.init(files, 'development');
         contractsConfig.compileContracts();
       });
 
@@ -65,10 +64,9 @@ describe('embark.config.contracts', function() {
           'test/support/contracts/another_storage.sol',
           'test/support/contracts/wallets.sol'
         ]
-        contractsConfig = new Config.Contracts(blockchainConfig, compiler);
+        contractsConfig = new Config.Contracts(1000, 1000, files, 'development');
         contractsConfig.loadConfigFile('test/support/arguments.yml');
-        contractsConfig.init(files, 'development');
-        contractsConfig.compileContracts('development');
+        contractsConfig.compileContracts();
       });
 
       it('add contracts to a list', function() {
@@ -81,10 +79,9 @@ describe('embark.config.contracts', function() {
         files = [
           'test/support/contracts/simple_storage.sol'
         ]
-        contractsConfig = new Config.Contracts(blockchainConfig, compiler);
+        contractsConfig = new Config.Contracts(1000, 1000, files, 'development');
         contractsConfig.loadConfigFile('test/support/instances.yml');
-        contractsConfig.init(files, 'development');
-        contractsConfig.compileContracts('development');
+        contractsConfig.compileContracts();
       });
 
       it('add contracts to a list', function() {
@@ -98,10 +95,9 @@ describe('embark.config.contracts', function() {
           'test/support/contracts/crowdsale.sol',
           'test/support/contracts/token.sol'
         ]
-        contractsConfig = new Config.Contracts(blockchainConfig, compiler);
+        contractsConfig = new Config.Contracts(1000, 1000, files, 'development');
         contractsConfig.loadConfigFile('test/support/arguments2.yml');
-        contractsConfig.init(files, 'development');
-        contractsConfig.compileContracts('development');
+        contractsConfig.compileContracts();
       });
 
       it('add contracts to a list', function() {
