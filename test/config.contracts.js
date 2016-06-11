@@ -6,8 +6,8 @@ require('mocha-sinon');
 
 describe('embark.config.contracts', function() {
   var _blockchainConfig = (new Config.Blockchain()).loadConfigFile('test/support/blockchain.yml');
-  var blockchainConfig = _blockchainConfig.config("development");
-  var compiler = new Compiler(_blockchainConfig);
+  var blockchainConfig = _blockchainConfig.config();
+  var compiler = new Compiler();
 
   describe('#loadConfigFile', function() {
     it('should read and load yml file', function() {
