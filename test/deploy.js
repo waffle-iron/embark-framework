@@ -11,14 +11,25 @@ var web3 = new Web3();
 web3.setProvider(new web3.providers.HttpProvider("http://localhost:8101"));
 
 setDeployConfig = function(config) {
+  console.log("setDeployConfig");
+
   var _blockchainConfig = (new Config.Blockchain()).loadConfigFile(config.blockchain);
   var blockchainConfig = _blockchainConfig.config("development");
-  var compiler = new Compiler();
-  var contractsConfig = new Config.Contracts(blockchainConfig, compiler);
+
+  var gasPrice = blockchainConfig.gasPrice;
+  var gasLimit = blockchainConfig.gasLimit;
+
+  var contractsConfig = new Config.Contracts(gasPrice, gasLimit, config.files, 'development');
+
   var chainManager = (new ChainManager()).loadConfigFile('./test/support/chain_manager.json');
+  chainManager.init(web3);
+
   contractsConfig.loadConfigFile(config.contracts);
-  contractsConfig.init(config.files, 'development');
-  return new Deploy('development', config.files, blockchainConfig, contractsConfig, chainManager, true, false, web3);
+
+  primaryAddress = web3.eth.coinbase;
+  web3.eth.defaultAccount = primaryAddress;
+
+  return new Deploy(config.files, blockchainConfig, contractsConfig, chainManager, true, web3);
 }
 
 function Done(fn) {
@@ -59,7 +70,7 @@ describe('embark.deploy', function() {
       it("should deploy contracts", function(fn) {
         var doneWrap = new Done(fn);
 
-        deploy.deploy_contracts("development", function() {
+        deploy.deploy_contracts(function() {
           var all_contracts = ['Wallet', 'SimpleStorage', 'AnotherStorage', 'Wallets'];
           for(var i=0; i < all_contracts.length; i++) {
             var className = all_contracts[i];
@@ -116,7 +127,7 @@ describe('embark.deploy', function() {
       it("should deploy contracts", function(fn) {
         var doneWrap = new Done(fn);
 
-        deploy.deploy_contracts("development", function() {
+        deploy.deploy_contracts(function() {
 
           var all_contracts = ['token', 'Crowdsale'];
           for(var i=0; i < all_contracts.length; i++) {
@@ -149,7 +160,7 @@ describe('embark.deploy', function() {
       it("should deploy contracts", function(fn) {
         var doneWrap = new Done(fn);
 
-        deploy.deploy_contracts("development", function() {
+        deploy.deploy_contracts(function() {
 
           var all_contracts = ['BarStorage', 'FooStorage'];
           for(var i=0; i < all_contracts.length; i++) {
@@ -183,7 +194,7 @@ describe('embark.deploy', function() {
       it("should deploy contracts", function(fn) {
         var doneWrap = new Done(fn);
 
-        deploy.deploy_contracts("development", function() {
+        deploy.deploy_contracts(function() {
           var all_contracts = ['DataSource', 'MyDataSource', 'Manager'];
           for(var i=0; i < all_contracts.length; i++) {
             var className = all_contracts[i];
@@ -237,7 +248,7 @@ describe('embark.deploy', function() {
       it("should not deploy contracts with addresses defined", function(fn) {
         var doneWrap = new Done(fn);
 
-        deploy.deploy_contracts("development", function() {
+        deploy.deploy_contracts(function() {
           var expected_deploys = ['SimpleStorage', 'BarStorage', 'FooStorage'];
 
           for(var i=0; i < expected_deploys.length; i++) {
