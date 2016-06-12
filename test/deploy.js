@@ -29,7 +29,7 @@ setDeployConfig = function(config) {
   primaryAddress = web3.eth.coinbase;
   web3.eth.defaultAccount = primaryAddress;
 
-  return new Deploy(config.files, blockchainConfig, contractsConfig, chainManager, true, web3);
+  return new Deploy(contractsConfig, chainManager, true, web3);
 }
 
 function Done(fn) {
