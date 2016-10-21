@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/iurimatias/embark-framework.png?label=ready&title=Ready)](https://waffle.io/iurimatias/embark-framework)
 
 What is embark
 ======
